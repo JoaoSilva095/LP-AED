@@ -5,16 +5,27 @@
 
 
 int main(void) {
-    MATRIX_STR* matriz = criar_matriz(2); // cria matriz com capacidade inicial de 2
-    insert_str(matriz, "ola");
-    insert_str(matriz, "mundo");
-    insert_str(matriz, "isto");
-    insert_str(matriz, "e");;
-    insert_str(matriz, "uma");;
-    insert_str(matriz, "matriz");
-    lista_da_matriz(matriz);
-    libertar_matriz(&matriz); // liberta a memória mas so funciona com endereço Porque nao sei ...
-    lista_da_matriz(matriz);
+    MATRIX_STR* texto = criar_matriz(3);
+    ler_ficheiro_texto("C:/Users/Rafael/CLionProjects/projeto/Frases.txt", texto);
+    printf("Frase guardadas do ficheiro:\n");
+    lista_da_matriz(texto);
+    MATRIX_STR* tokens = criar_matriz(8);
+    insert_str(tokens, "the");
+    insert_str(tokens, "a");
+    insert_str(tokens, "cat");
+    insert_str(tokens, "dog");
+    insert_str(tokens, "sleeps");
+    insert_str(tokens, "runs");
+    insert_str(tokens, "eats");
+
+    MATRIX_INT* token_ids = create_matrix_int(3);
+
+    tokenize_text(texto, tokens, token_ids);
+
+    list_matrix_int(token_ids);
+
+    free_matrix_int(token_ids);
+    libertar_matriz(tokens);
+    libertar_matriz(texto);
     return 0;
 }
-
