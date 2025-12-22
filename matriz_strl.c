@@ -14,7 +14,7 @@ MATRIX_STR* criar_matriz(int capacidade) {
 
 
 }
-//R1.2 Inserir string na matriz
+//////////////////R1.2 Inserir string na matriz///////////////////////
 void insert_str(MATRIX_STR* matriz, const char* str) {
     if (matriz->linhas >= matriz->capacidade) {
         matriz->capacidade *= 2; // Multiplica o tamanho da capacidade
@@ -34,6 +34,56 @@ void lista_da_matriz(MATRIX_STR *matriz) {
         printf("%s\n", matriz->dados[i]);
     }
 }
+
+void ler_ficheiro_texto(const char* filename, MATRIX_STR* matriz) {
+    FILE* f = fopen(filename, "r");
+    if (f == NULL) {
+        perror("Erro ao abrir ficheiro");
+        return;
+    }
+
+    char buffer[256];
+    while (fgets(buffer, sizeof(buffer), f)) {
+        // remove \n no fim da linha
+        buffer[strcspn(buffer, "\n")] = '\0';
+        insert_str(matriz, buffer);
+    }
+    fclose(f);
+}
+
+int procurar_frase(MATRIX_STR* matriz, const char* frase) {
+    // for serve para percorrer todas as linhas da matriz e strcmp serve para comparar as strings
+    for (int i = 0; i < matriz->linhas; i++) {
+        if
+    (strcmp(matriz->dados[i], frase) == 0)
+            return i; // encontrou } }
+    }
+    return -1; // não encontrou }
+}
+
+int procurar_substring(MATRIX_STR* matriz, const char* sub) {
+    for (int i = 0; i < matriz->linhas; i++) {
+        if (strstr(matriz->dados[i], sub) != NULL) {
+            return i;
+        }
+    } return -1;
+}
+
+int remover_frase(MATRIX_STR* matriz, const char* frase) {
+    int pos = procurar_frase(matriz, frase);
+    if (pos == -1) {
+        return 0; // frase não encontrada
+    }
+    free(matriz->dados[pos]); // liberta a memória da string a remover
+    // desloca as linhas seguintes para cima
+    for (int i = pos; i < matriz->linhas - 1; i++) {
+        matriz->dados[i] = matriz->dados[i + 1];
+    }
+    matriz->linhas--;
+    return 1;
+}
+/////////////////////////////R1.2 fIM/////////////////////////////////////////
+
 
 void libertar_matriz(MATRIX_STR* matriz) {
     for (int i = 0; i < matriz->linhas; i++) {
@@ -117,19 +167,4 @@ void tokenize_text(MATRIX_STR* texto, MATRIX_STR* tokens, MATRIX_INT* token_ids)
     }
 }
 
-void ler_ficheiro_texto(const char* filename, MATRIX_STR* matriz) {
-    FILE* f = fopen(filename, "r");
-    if (f == NULL) {
-        perror("Erro ao abrir ficheiro");
-        return;
-    }
 
-    char buffer[256];
-    while (fgets(buffer, sizeof(buffer), f)) {
-        // remove \n no fim da linha
-        buffer[strcspn(buffer, "\n")] = '\0';
-        insert_str(matriz, buffer);
-    }
-
-    fclose(f);
-}
