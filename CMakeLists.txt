@@ -3,5 +3,4 @@ project(LP-AED C)
 
 set(CMAKE_C_STANDARD 17)
 
-add_executable(LP-AED main.c
-        main.c)
+add_executable(LP-AED main.c)
