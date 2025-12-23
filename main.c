@@ -6,7 +6,7 @@
 
 int main(void) {
     MATRIX_STR* texto = criar_matriz(3);
-    ler_ficheiro_texto("C:/Users/Rafael/CLionProjects/projeto/Frases.txt", texto);
+    ler_ficheiro_texto("Frases.txt", texto);
     printf("Frase guardadas do ficheiro:\n");
     lista_da_matriz(texto);
     MATRIX_STR* tokens = criar_matriz(8);
@@ -38,7 +38,7 @@ int main(void) {
         printf("Substring 'cat' nao encontrada.\n");
     }
 
-  if (remover_frase(texto , "the dog runs")) {
+    if (remover_frase(texto , "a dog runs")) {
         printf("Frase 'a dog runs' removida com sucesso.\n");
     } else {
         printf("Frase 'a dog runs' nao encontrada para remocao.\n");

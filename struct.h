@@ -1,44 +1,28 @@
-//
-// Created by Rafael on 22/11/2025.
-//
 #ifndef PROJETO_MAIN_H
 #define PROJETO_MAIN_H
 
-
 typedef struct {
-    char **dados;   // matriz de strings ou seja um apontador para apontadores de char
+    char **dados;
     int linhas;
-    int capacidade;  // capacidade máxima
+    int capacidade;
 } MATRIX_STR;
 
-
-// Funções para manipular a matriz de strings.
-
 MATRIX_STR* criar_matriz(int capacidade);
-///R1,2//////
-// Insere uma string na matriz, redimensionando se necessário.
 void insert_str(MATRIX_STR* matriz, const char* str);
-
-// Da ao utilizador a lista de strings na matriz.
-void lista_da_matriz(MATRIX_STR *matriz);
-
+void lista_da_matriz(MATRIX_STR* matriz);
 void ler_ficheiro_texto(const char* filename, MATRIX_STR* matriz);
-
+void guardar_ficheiro_texto(const char* filename, MATRIX_STR* matriz);
 int procurar_frase(MATRIX_STR* matriz, const char* frase);
-
 int procurar_substring(MATRIX_STR* matriz, const char* sub);
-
 int remover_frase(MATRIX_STR* matriz, const char* frase);
-////////////R1.2 FIM///////////////////////
 void libertar_matriz(MATRIX_STR* matriz);
 
-
-// Tokens ???
+/* -------- MATRIZ DE INTEIROS -------- */
 
 typedef struct {
-    int **data;     // matriz de inteiros (cada linha = vetor de IDs)
-    int rows;       // número de linhas ocupadas
-    int capacity;   // capacidade máxima de linhas
+    int **data;
+    int rows;
+    int capacity;
 } MATRIX_INT;
 
 MATRIX_INT* create_matrix_int(int capacity);
@@ -47,9 +31,6 @@ void list_matrix_int(MATRIX_INT* m);
 void free_matrix_int(MATRIX_INT* m);
 
 int find_token_id(MATRIX_STR* tokens, const char* word);
-// Tokeniza todas as frases do texto
 void tokenize_text(MATRIX_STR* texto, MATRIX_STR* tokens, MATRIX_INT* token_ids);
-//ler o ficheiro texto e guardar na matriz
 
-
-#endif //PROJETO_MAIN_H
+#endif
