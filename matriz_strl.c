@@ -169,3 +169,9 @@ void tokenize_text(MATRIX_STR* texto, MATRIX_STR* tokens, MATRIX_INT* token_ids)
         free(frase);
     }
 }
+void inserir_token_unico(MATRIX_STR* tokens, const char* palavra) {
+    for (int i = 0; i < tokens->linhas; i++) {
+        if (strcmp(tokens->dados[i], palavra) == 0) return;
+    }
+    insert_str(tokens, palavra);
+}

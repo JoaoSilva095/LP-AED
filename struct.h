@@ -37,6 +37,7 @@ void free_matrix_int(MATRIX_INT* m);
 int find_token_id(MATRIX_STR* tokens, const char* word);
 //// Tokeniza todas as frases do texto
 void tokenize_text(MATRIX_STR* texto, MATRIX_STR* tokens, MATRIX_INT* token_ids);
+void carregar_tudo_do_ficheiro(const char* filename, MATRIX_STR* texto, MATRIX_STR* tokens);
 
 //R1.3 - Estrutura para pares de tokens
 typedef struct {

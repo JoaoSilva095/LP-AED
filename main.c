@@ -5,11 +5,13 @@
 #include "1.4.h"
 #include "1.5.h"
 
+
 void testar_R1_2() {
     printf("========== TESTE R1.2 - Manipulação de Texto ==========\n\n");
 
     // Criar matriz para texto
     MATRIX_STR* texto = criar_matriz(3);
+
 
     // Tentar ler do ficheiro (se existir)
     ler_ficheiro_texto("Frases.txt", texto);
@@ -26,24 +28,32 @@ void testar_R1_2() {
     lista_da_matriz(texto);
 
     // Criar tokens
-    MATRIX_STR* tokens = criar_matriz(8);
-    insert_str(tokens, "the");
-    insert_str(tokens, "a");
-    insert_str(tokens, "cat");
-    insert_str(tokens, "dog");
-    insert_str(tokens, "sleeps");
-    insert_str(tokens, "runs");
-    insert_str(tokens, "eats");
+    MATRIX_STR* tokens = criar_matriz(3);
+    carregar_tudo_do_ficheiro("Frases.txt", texto, tokens);
+
 
     printf("\nTokens disponíveis:\n");
     lista_da_matriz(tokens);
 
-    // Tokenização
-    MATRIX_INT* token_ids = create_matrix_int(3);
-    tokenize_text(texto, tokens, token_ids);
+
+    MATRIX_INT* token_ids = create_matrix_int(3):
 
     printf("\nTokenização das frases:\n");
     list_matrix_int(token_ids);
+
+    printf("========== TOKENS DISPONIVEIS  ==========\n");
+    for (int i = 0; i < tokens->linhas; i++) {
+        printf("ID %d: %s\n", i, tokens->dados[i]);
+    }
+
+    // 4. Executar a Tokenização (Transformar frases em IDs)
+
+    tokenize_text(texto, tokens, token_ids);
+
+    // 5. Mostrar o resultado da Tokenização
+    printf("\n========== TOKENIZACAO DAS FRASES (VETORES DE IDS) ==========\n");
+    list_matrix_int(token_ids);
+
 
     // Procurar frase
     int pos = procurar_frase(texto, "the cat sleeps");
