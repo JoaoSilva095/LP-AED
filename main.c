@@ -36,7 +36,7 @@ void testar_R1_2() {
     lista_da_matriz(tokens);
 
 
-    MATRIX_INT* token_ids = create_matrix_int(3):
+    MATRIX_INT* token_ids = create_matrix_int(3);
 
     printf("\nTokenização das frases:\n");
     list_matrix_int(token_ids);
