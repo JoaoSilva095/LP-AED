@@ -4,6 +4,7 @@
 #include "struct.h"
 
 MATRIX_STR* criar_matriz(int capacidade) {
+    if (capacidade <= 0) capacidade = 1;
     MATRIX_STR* matriz = malloc(sizeof(MATRIX_STR));
     matriz->dados = malloc(capacidade * sizeof(char*)); // cria espaço para os apontadores de char .
     matriz->linhas = 0;
@@ -34,11 +35,12 @@ void ler_ficheiro_texto(const char* filename, MATRIX_STR* matriz) {
         perror("Erro ao abrir ficheiro");
         return;
     }
-
-    char buffer[256];
+    // buffer maior so do caso a frase for muito grande
+    char buffer[1024];
     while (fgets(buffer, sizeof(buffer), f)) {
         // remove \n no fim da linha que é obtido pelo fgets e substitui por \0 que é o fim da string
         buffer[strcspn(buffer, "\n")] = '\0';
+        if (strlen(buffer) > 0) // evita linhas vazias para n desperdicar memoria  e isto é para evitar que a matriz fique com linhas vazias.
         insert_str(matriz, buffer);
     }
 

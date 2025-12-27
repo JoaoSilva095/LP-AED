@@ -6,7 +6,7 @@
 
 int main(void) {
     MATRIX_STR* texto = criar_matriz(3);
-    ler_ficheiro_texto("Frases.txt", texto);
+    ler_ficheiro_texto("C:/Users/Rafael/CLionProjects/LP-AED/Frases.txt", texto);
     printf("Frase guardadas do ficheiro:\n");
     lista_da_matriz(texto);
     MATRIX_STR* tokens = criar_matriz(8);
