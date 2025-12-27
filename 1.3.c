@@ -13,6 +13,7 @@ int encontrar_par(ParFreq *lista, int total, char *t1, char *t2) {
 }
 
 void executar_R1_3(char ***frase, int *num_tokens_frase, char ***alfabeto, int *num_tokens_alfabeto, int objetivo) {
+
     while (*num_tokens_alfabeto < objetivo) {
         ParFreq contagem[100];
         int total_pares = 0;

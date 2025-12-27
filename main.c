@@ -5,6 +5,78 @@
 #include "1.4.h"
 #include "1.5.h"
 
+void testar_R1_2() {
+    printf("========== TESTE R1.2 - Manipulação de Texto ==========\n\n");
+
+    // Criar matriz para texto
+    MATRIX_STR* texto = criar_matriz(3);
+
+    // Tentar ler do ficheiro (se existir)
+    ler_ficheiro_texto("Frases.txt", texto);
+
+    // Se não houver ficheiro, adicionar frases manualmente
+    if (texto->linhas == 0) {
+        printf("Ficheiro 'Frases.txt' não encontrado. Usando dados de teste.\n");
+        insert_str(texto, "the cat sleeps");
+        insert_str(texto, "the dog runs");
+        insert_str(texto, "a cat eats");
+    }
+
+    printf("Frases carregadas:\n");
+    lista_da_matriz(texto);
+
+    // Criar tokens
+    MATRIX_STR* tokens = criar_matriz(8);
+    insert_str(tokens, "the");
+    insert_str(tokens, "a");
+    insert_str(tokens, "cat");
+    insert_str(tokens, "dog");
+    insert_str(tokens, "sleeps");
+    insert_str(tokens, "runs");
+    insert_str(tokens, "eats");
+
+    printf("\nTokens disponíveis:\n");
+    lista_da_matriz(tokens);
+
+    // Tokenização
+    MATRIX_INT* token_ids = create_matrix_int(3);
+    tokenize_text(texto, tokens, token_ids);
+
+    printf("\nTokenização das frases:\n");
+    list_matrix_int(token_ids);
+
+    // Procurar frase
+    int pos = procurar_frase(texto, "the cat sleeps");
+    if (pos != -1) {
+        printf("\nFrase 'the cat sleeps' encontrada na posição: %d\n", pos);
+    } else {
+        printf("\nFrase 'the cat sleeps' não encontrada.\n");
+    }
+
+    // Procurar substring
+    int pos_sub = procurar_substring(texto, "dog");
+    if (pos_sub != -1) {
+        printf("Substring 'dog' encontrada na posição: %d\n", pos_sub);
+    } else {
+        printf("Substring 'dog' não encontrada.\n");
+    }
+
+    // Remover frase
+    if (remover_frase(texto, "the dog runs")) {
+        printf("Frase 'the dog runs' removida com sucesso.\n");
+    } else {
+        printf("Frase 'the dog runs' não encontrada para remoção.\n");
+    }
+
+    printf("\nFrases após remoção:\n");
+    lista_da_matriz(texto);
+
+    // Limpeza
+    free_matrix_int(token_ids);
+    libertar_matriz(tokens);
+    libertar_matriz(texto);
+}
+
 void testar_R1_3() {
     printf("========== TESTE R1.3 - Cálculo do Alfabeto ==========\n");
 
@@ -90,6 +162,8 @@ void testar_R1_4_R1_5() {
 }
 
 int main() {
+    // Testar R1.2
+    testar_R1_2();
     // Testar R1.3
     testar_R1_3();
 
