@@ -7,84 +7,7 @@
 
 
 void testar_R1_2() {
-    printf("========== TESTE R1.2 - Manipulação de Texto ==========\n\n");
 
-    // Criar matriz para texto
-    MATRIX_STR* texto = criar_matriz(3);
-
-
-    // Tentar ler do ficheiro (se existir)
-    ler_ficheiro_texto("Frases.txt", texto);
-
-    // Se não houver ficheiro, adicionar frases manualmente
-    if (texto->linhas == 0) {
-        printf("Ficheiro 'Frases.txt' não encontrado. Usando dados de teste.\n");
-        insert_str(texto, "the cat sleeps");
-        insert_str(texto, "the dog runs");
-        insert_str(texto, "a cat eats");
-    }
-
-    printf("Frases carregadas:\n");
-    lista_da_matriz(texto);
-
-    // Criar tokens
-    MATRIX_STR* tokens = criar_matriz(3);
-    carregar_tudo_do_ficheiro("Frases.txt", texto, tokens);
-
-
-    printf("\nTokens disponíveis:\n");
-    lista_da_matriz(tokens);
-
-
-    MATRIX_INT* token_ids = create_matrix_int(3);
-
-    printf("\nTokenização das frases:\n");
-    list_matrix_int(token_ids);
-
-    printf("========== TOKENS DISPONIVEIS  ==========\n");
-    for (int i = 0; i < tokens->linhas; i++) {
-        printf("ID %d: %s\n", i, tokens->dados[i]);
-    }
-
-    // 4. Executar a Tokenização (Transformar frases em IDs)
-
-    tokenize_text(texto, tokens, token_ids);
-
-    // 5. Mostrar o resultado da Tokenização
-    printf("\n========== TOKENIZACAO DAS FRASES (VETORES DE IDS) ==========\n");
-    list_matrix_int(token_ids);
-
-
-    // Procurar frase
-    int pos = procurar_frase(texto, "the cat sleeps");
-    if (pos != -1) {
-        printf("\nFrase 'the cat sleeps' encontrada na posição: %d\n", pos);
-    } else {
-        printf("\nFrase 'the cat sleeps' não encontrada.\n");
-    }
-
-    // Procurar substring
-    int pos_sub = procurar_substring(texto, "dog");
-    if (pos_sub != -1) {
-        printf("Substring 'dog' encontrada na posição: %d\n", pos_sub);
-    } else {
-        printf("Substring 'dog' não encontrada.\n");
-    }
-
-    // Remover frase
-    if (remover_frase(texto, "the dog runs")) {
-        printf("Frase 'the dog runs' removida com sucesso.\n");
-    } else {
-        printf("Frase 'the dog runs' não encontrada para remoção.\n");
-    }
-
-    printf("\nFrases após remoção:\n");
-    lista_da_matriz(texto);
-
-    // Limpeza
-    free_matrix_int(token_ids);
-    libertar_matriz(tokens);
-    libertar_matriz(texto);
 }
 
 void testar_R1_3() {
@@ -169,16 +92,128 @@ void testar_R1_4_R1_5() {
     for (int i = 0; i < unique_count; i++) {
         printf("  Token ID %d -> TF = %d\n", unique_ids[i], tf_values[i]);
     }
+    printf("\n--- Resultado R1.5 (TF) ---\n");
+    for (int i = 0; i < unique_count; i++) {
+        printf("Token ID %d: Frequencia %d\n", unique_ids[i], tf_values[i]);
+    }
+
+    // ========== AGORA O R1.6 COM DADOS REAIS =========
+}
+void testar_similaridade_real(MATRIX_STR* texto, MATRIX_INT* token_ids) {
+    if (token_ids->linhas_int < 2) {
+        printf("Precisas de pelo menos 2 frases para comparar.\n");
+        return;
+    }
+
+    // --- DADOS DA FRASE 0 ---
+    int tam0 = token_ids->dados_int[0][0];
+    int* ids_f0 = &token_ids->dados_int[0][1];
+    int u_ids0[MAX_TF], tf0[MAX_TF];
+    int u_count0 = compute_tf(ids_f0, tam0, u_ids0, tf0);
+
+    // --- DADOS DA FRASE 1 ---
+    int tam1 = token_ids->dados_int[1][0];
+    int* ids_f1 = &token_ids->dados_int[1][1];
+    int u_ids1[MAX_TF], tf1[MAX_TF];
+    int u_count1 = compute_tf(ids_f1, tam1, u_ids1, tf1);
+
+    // --- CÁLCULO DA SIMILARIDADE ---
+    float sim = calcular_similaridade(u_ids0, tf0, u_count0, u_ids1, tf1, u_count1);
+
+    printf("\n========== COMPARACAO R1.6 ==========\n");
+    printf("Frase A: %s\n", texto->dados[0]);
+    printf("Frase B: %s\n", texto->dados[1]);
+    printf("Score de Similaridade: %.2f\n", sim);
 }
 
+
 int main() {
-    // Testar R1.2
-    testar_R1_2();
+     printf("========== TESTE R1.2 - Manipulação de Texto ==========\n\n");
+
+    // Criar matriz para texto
+    MATRIX_STR* texto = criar_matriz(3);
+
+
+    // Tentar ler do ficheiro (se existir)
+    ler_ficheiro_texto("Frases.txt", texto);
+
+    // Se não houver ficheiro, adicionar frases manualmente
+    if (texto->linhas == 0) {
+        printf("Ficheiro 'Frases.txt' não encontrado. Usando dados de teste.\n");
+        insert_str(texto, "the cat sleeps");
+        insert_str(texto, "the dog runs");
+        insert_str(texto, "a cat eats");
+    }
+
+    printf("Frases carregadas:\n");
+    lista_da_matriz(texto);
+
+    // Criar tokens
+    MATRIX_STR* tokens = criar_matriz(3);
+    carregar_tudo_do_ficheiro("Frases.txt", texto, tokens);
+
+
+    printf("\nTokens disponíveis:\n");
+    lista_da_matriz(tokens);
+
+
+    MATRIX_INT* token_ids = create_matrix_int(3);
+
+    printf("\nTokenização das frases:\n");
+    list_matrix_int(token_ids);
+
+    printf("========== TOKENS DISPONIVEIS  ==========\n");
+    for (int i = 0; i < tokens->linhas; i++) {
+        printf("ID %d: %s\n", i, tokens->dados[i]);
+    }
+
+    // 4. Executar a Tokenização (Transformar frases em IDs)
+
+    tokenize_text(texto, tokens, token_ids);
+
+    // 5. Mostrar o resultado da Tokenização
+    printf("\n========== TOKENIZACAO DAS FRASES (VETORES DE IDS) ==========\n");
+    list_matrix_int(token_ids);
+
+
+    // Procurar frase
+    int pos = procurar_frase(texto, "the cat sleeps");
+    if (pos != -1) {
+        printf("\nFrase 'the cat sleeps' encontrada na posição: %d\n", pos);
+    } else {
+        printf("\nFrase 'the cat sleeps' não encontrada.\n");
+    }
+
+    // Procurar substring
+    int pos_sub = procurar_substring(texto, "dog");
+    if (pos_sub != -1) {
+        printf("Substring 'dog' encontrada na posição: %d\n", pos_sub);
+    } else {
+        printf("Substring 'dog' não encontrada.\n");
+    }
+
+    // Remover frase
+    if (remover_frase(texto, "the dog runs")) {
+        printf("Frase 'the dog runs' removida com sucesso.\n");
+    } else {
+        printf("Frase 'the dog runs' não encontrada para remoção.\n");
+    }
+
+    printf("\nFrases após remoção:\n");
+    lista_da_matriz(texto);
+
+
     // Testar R1.3
     testar_R1_3();
 
     // Testar R1.4 e R1.5
     testar_R1_4_R1_5();
 
+  testar_similaridade_real(texto , token_ids);
+
+    // Limpeza
+    free_matrix_int(token_ids);
+    libertar_matriz(tokens);
+    libertar_matriz(texto);
     return 0;
 }

@@ -66,4 +66,8 @@ int tokenize_greedy(const char *text, Token vocab[], int vocab_size, int output_
 #define MAX_TF 1000
 int compute_tf(int token_ids[], int token_count, int unique_ids[], int tf_values[]);
 
+//R1.6 - Cálculo da Similaridade por Produto Interno
+float calcular_similaridade(int idsA[], int tfA[], int tamA, int idsB[], int tfB[], int tamB);
+
+
 #endif

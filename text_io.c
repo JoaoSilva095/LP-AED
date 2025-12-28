@@ -4,15 +4,14 @@
 #include <string.h>
 
 void carregar_tudo_do_ficheiro(const char* filename, MATRIX_STR* texto, MATRIX_STR* tokens) {
-    if (!filename || !texto || !tokens) return;
+    if (!filename || !texto || !tokens) return; // Este IF basicamente verifica se o ficheiro existe e se o texto e tokens são validos
     FILE *f = fopen(filename, "r");
-    if (!f) return;
+    if (!f) return; // se o ficheiro não abrir , fecha. Isto foi Tip do AI :)
 
-    char line[1024];
-    const char *delim = " \t\n\r.,;:!-?()\"'";
+    char line[1024]; // line: buffer onde cada linha do ficheiro é lida ou seja uma zona de memoria reservada temporaria
+    const char *delim = " \t\n\r.,;:!-?()\"'"; // para delimitar estes caracters para nao ser considerados tokens
 
     while (fgets(line, sizeof(line), f)) {
-        /* remover newline/carriage returns */
         size_t len = strlen(line);
         while (len > 0 && (line[len-1] == '\n' || line[len-1] == '\r')) {
             line[--len] = '\0';
