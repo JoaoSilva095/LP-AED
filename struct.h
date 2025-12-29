@@ -69,5 +69,22 @@ int compute_tf(int token_ids[], int token_count, int unique_ids[], int tf_values
 //R1.6 - Cálculo da Similaridade por Produto Interno
 float calcular_similaridade(int idsA[], int tfA[], int tamA, int idsB[], int tfB[], int tamB);
 
+//R2.1 listas ligadas
+typedef struct Token_Node {
+    int *token_ids;// ids dos tokens
+    int *t_valores;// valores TF
+    int tam_vetores;// tamanho dos vetores
+    struct Token_Node *next;// apontador para o próximo nó
+    struct Token_Node *prev;// apontador para o nó anterior
+} Token_Node;
 
+typedef struct {
+    Token_Node *head;// apontador para o primeiro nó
+    Token_Node *tail;// apontador para o último nó
+    int total_tokens;// número total de tokens na lista
+} Token_List;
+
+Token_List* criar_lista();
+void inserir_no_fim(Token_List* lista, int *ids, int *tfs, int tam);
+void listar_tokens(Token_List* lista);
 #endif

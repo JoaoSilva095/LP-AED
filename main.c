@@ -83,6 +83,26 @@ void testar_R1_4_R1_5() {
     }
     printf("]\n\n");
 
+
+    // 2.1 criar a lista ligada para guardar os vetores de TF de cada frase
+
+    // 1. Criar a lista (uma única vez no início do main)
+    Token_List* minha_lista = criar_lista();
+    MATRIX_INT* matrix_aux = (MATRIX_INT*) token_ids;
+    for (int i = 0; i < matrix_aux->linhas_int; i++) {
+        int unique_ids[MAX_TF];
+        int tf_values[MAX_TF];
+
+        // 2. Calcular as frequências (R1.5)
+        // Supondo que tens os IDs da frase 'i' num array chamado ids_da_frase
+        int n_unicos = compute_tf(token_ids, token_count, unique_ids, tf_values);
+
+        // 3. Guardar na Lista Ligada (R2.1)
+        // Passamos a lista, os vetores calculados e o número de elementos únicos
+        inserir_no_fim(minha_lista, unique_ids, tf_values, n_unicos);
+
+    }
+
     // Cálculo da TF (R1.5)
     int unique_ids[MAX_TF];
     int tf_values[MAX_TF];
@@ -210,6 +230,39 @@ int main() {
     testar_R1_4_R1_5();
 
   testar_similaridade_real(texto , token_ids);
+
+
+
+    // INÍCIO DO REQUISITO 2.1 - LISTA LIGADA
+
+
+    // 1. Criar a lista (uma única vez)
+    Token_List* minha_lista = criar_lista();
+
+    // 2. Ciclo para processar as frases reais que estão na MATRIX_INT
+    // Usamos o token_ids que foi preenchido pela função tokenize_text acima
+    for (int i = 0; i < token_ids->linhas_int; i++) {
+
+        int* linha_de_ids = token_ids->dados_int[i];
+        int total_tokens = linha_de_ids[0]; // Tamanho guardado na pos 0
+
+        int unique_ids[MAX_TF];
+        int tf_values[MAX_TF];
+
+        // Calcular TF para a frase i (R1.5)
+        // Passamos &linha_de_ids[1] para saltar o valor do tamanho
+        int n_unicos = compute_tf(&linha_de_ids[1], total_tokens, unique_ids, tf_values);
+
+        // Guardar na Lista Ligada (R2.1)
+        inserir_no_fim(minha_lista, unique_ids, tf_values, n_unicos);
+    }
+
+    // 3. Testar a listagem do R2.1
+    printf("\n CONTEÚDO DA LISTA LIGADA R2.1\n");
+    listar_tokens(minha_lista);
+
+
+
 
     // Limpeza
     free_matrix_int(token_ids);
