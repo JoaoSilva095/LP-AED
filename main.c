@@ -147,6 +147,7 @@ void testar_similaridade_real(MATRIX_STR* texto, MATRIX_INT* token_ids) {
 }
 
 
+
 int main() {
      printf("========== TESTE R1.2 - Manipulação de Texto ==========\n\n");
 
@@ -260,6 +261,53 @@ int main() {
     // 3. Testar a listagem do R2.1
     printf("\n CONTEÚDO DA LISTA LIGADA R2.1\n");
     listar_tokens(minha_lista);
+
+//R2.2
+  printf("\n========== INICIO R2.2 - ESTRUTURA DOC AGREGADORA ==========\n");
+
+    // 1. Criar a estrutura vazia (capacidade inicial 10, mas cresce sozinha)
+    DOC* doc = criar_documento();
+    if (!doc) return 1;
+
+    // 2. Carregar os dados diretamente para dentro do DOC
+    // Repara que passamos doc->texto e doc->tokens
+    printf("--> Carregando dados do ficheiro para a estrutura DOC...\n");
+    carregar_tudo_do_ficheiro("Frases.txt", doc->texto, doc->tokens);
+
+    // 3. Gerar os IDs (Tokenização) para dentro do DOC
+    tokenize_text(doc->texto, doc->tokens, doc->token_ids);
+
+    // --- TESTE R2.2 (DINÂMICO) ---
+    printf("\n========== MOSTRANDO R2.2 (SIMILARIDADES) ==========\n");
+
+    // Compara todas as frases entre si de forma dinâmica
+    for (int i = 0; i < minha_lista->total_tokens; i++) {
+        Token_Node* noA = obter_no_posicao(minha_lista, i);
+
+        for (int j = i + 1; j < minha_lista->total_tokens; j++) {
+            Token_Node* noB = obter_no_posicao(minha_lista, j);
+
+            if (noA && noB) {
+                // Cálculo do Cosseno (R1.6)
+                float cos = calcular_similaridade(noA->token_ids, noA->t_valores, noA->tam_vetores,
+                                                  noB->token_ids, noB->t_valores, noB->tam_vetores);
+
+                // Cálculo de Jaccard (R2.2)
+                float jac = calcular_jaccard(noA->token_ids, noA->tam_vetores,
+                                             noB->token_ids, noB->tam_vetores);
+
+                printf("Frase [%d] vs [%d]: Cosseno = %.2f | Jaccard = %.2f%%\n", i, j, cos, jac * 100);
+            }
+        }
+    }
+    void teste_R2_3(DOC *doc);
+
+
+
+    /* Limpeza */
+    libertar_documento(doc);
+    printf("Documento libertado\n");
+
 
 
 

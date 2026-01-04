@@ -40,12 +40,14 @@ void inserir_no_fim(Token_List* lista, int *ids, int *tfs, int tam) {
 
     // Ajuste dos apontadores da lista
     if (lista->head == NULL) {
-        lista->head = novo; // Primeiro nó da lista
+        lista->head = novo;
+        lista->tail = novo; // Primeiro nó da lista
     } else {
-        lista->tail->next = novo; // Liga o antigo último ao novo
+        lista->tail->next = novo;
+        novo->prev = lista->tail;
+        lista->tail = novo;
     }
 
-    lista->tail = novo; // O novo nó passa a ser o rabo da lista
     lista->total_tokens++;
 }
 
@@ -82,14 +84,14 @@ void libertar_lista(Token_List* lista) {
 
         // Libertar o nó
         free(atual);
-
         atual = proximo;
     }
+}
     /**
  * R2.1 - Retorna o apontador para o nó numa determinada posição.
  * Útil para aceder aos dados de uma frase específica sem percorrer a lista manualmente no main.
  */
-    Token_Node* obter_no_posicao(Token_List* lista, int pos) {
+    Token_Node* obter_no_posicao(Token_List* lista, int pos){
         if (lista == NULL || pos < 0 || pos >= lista->total_tokens) {
             return NULL;
         }
@@ -106,7 +108,7 @@ void libertar_lista(Token_List* lista) {
      * R2.1 - Remove um nó da lista numa determinada posição (0 a N-1).
      * Importante para manter a lista sincronizada se apagares uma frase do texto.
      */
-    int remover_no_posicao(Token_List* lista, int pos) {
+    int remover_no_posicao(Token_List* lista, int pos){
         if (lista == NULL || pos < 0 || pos >= lista->total_tokens) {
             printf("Erro: Posicao de remocao invalida.\n");
             return 0;
@@ -140,6 +142,4 @@ void libertar_lista(Token_List* lista) {
         lista->total_tokens--;
         return 1;
     }
-    // Libertar a estrutura de controlo
-    free(lista);
-}
+

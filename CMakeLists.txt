@@ -13,4 +13,6 @@ add_executable(LP-AED main.c
         text_io.c
         1.6.c
         2.1.c
+        2.2.c
+        2.3.c
 )

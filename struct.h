@@ -20,7 +20,7 @@ int procurar_substring(MATRIX_STR* matriz, const char* sub);
 int remover_frase(MATRIX_STR* matriz, const char* frase);
 ///////R1.2 FIM //////
 
-void libertar_matriz(MATRIX_STR* matriz);
+void libertar_matriz(MATRIX_STR* matriz); // esta localizado na matriz_strl.c
 
 /* -------- MATRIZ DE INTEIROS -------- */
 typedef struct {
@@ -87,4 +87,35 @@ typedef struct {
 Token_List* criar_lista();
 void inserir_no_fim(Token_List* lista, int *ids, int *tfs, int tam);
 void listar_tokens(Token_List* lista);
+
+
+Token_Node* obter_no_posicao(Token_List* lista, int pos);
+int remover_no_posicao(Token_List* lista, int pos);
+
+////////////R2.2 - Estrutura DOC (Agregadora)/////////////
+///Apontadores para as structs principais
+typedef struct {
+    MATRIX_STR* texto;       // Matriz com as frases originais
+    MATRIX_STR* tokens;      // Matriz com o vocabulário (tokens únicos)
+    MATRIX_INT* token_ids;   // Matriz com os IDs (tokenização)
+    Token_List* tf_list;     // Lista ligada com os valores TF (R2.1)
+} DOC;
+
+void listar_tokens(Token_List* lista);
+Token_Node* obter_no_posicao(Token_List* lista, int pos);
+int remover_no_posicao(Token_List* lista, int pos);
+
+void libertar_lista(Token_List* lista);
+// --- FALTA ADICIONAR ISTO PARA O R2.2 (Similaridade de Jaccard) ---
+// Jaccard mede a interseção sobre a união de conjuntos
+float calcular_jaccard(int idsA[], int tamA, int idsB[], int tamB);
+// Funções de gestão do Documento
+DOC* criar_documento();
+void libertar_documento(DOC* doc);
+
+void guardar_texto_txt();
+void guardar_tokens_txt();
+void guardar_tf_txt();
+void teste_R2_3(DOC *doc);
+
 #endif
